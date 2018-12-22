@@ -48,13 +48,17 @@ public class CameraActivity extends AppCompatActivity implements SurfaceTexture.
                 startActivity(intent);
             }
         });
-        requestPermission();
+//        requestPermission();
 
         glSurfaceView = findViewById(R.id.gl);
+        //设置渲染GLES版本
         glSurfaceView.setEGLContextClientVersion(2);
+        //设置渲染回调
         glSurfaceView.setRenderer(new MyRender(this));
         /*渲染方式，RENDERMODE_WHEN_DIRTY表示被动渲染，只有在调用requestRender或者onResume等方法时才会进行渲染。RENDERMODE_CONTINUOUSLY表示持续渲染*/
         glSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+
+        Log.d(TAG, "onCreate: 这是相机页面");
     }
 
     private void requestPermission(){
@@ -71,8 +75,6 @@ public class CameraActivity extends AppCompatActivity implements SurfaceTexture.
         Log.e(TAG,"requestPermission onPermissionDenied");
         Toast.makeText(this, "您拒绝了开启权限,可去设置界面打开", Toast.LENGTH_SHORT).show();
     }
-
-
     @PermissionPermanentDenied(requestCode = PERMISSION_CODE)
     private void onPermissionPermanentDenied() {
         Log.e(TAG,"requestPermission onPermissionPermanentDenied");
@@ -99,20 +101,20 @@ public class CameraActivity extends AppCompatActivity implements SurfaceTexture.
 
     public class MyRender implements GLSurfaceView.Renderer{
         private Context context;
-
-        Triangle triangle;
-
+        Triangle triangle = null;
         public MyRender(Context context) {
             this.context=context;
         }
-
         @Override
         public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
+            //todo 只运行一次
+            requestPermission();
+            //擦除颜色红色
             glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
-
             mOESTextureId = createOESTextureObject();
+            //创建一个渲染图
             mSurfaceTexture = new SurfaceTexture(mOESTextureId);
-
+            //new一个控制GLES渲染的类
             triangle = new Triangle(context);
             try {
                 mCamera.setPreviewTexture(mSurfaceTexture);
@@ -120,6 +122,7 @@ public class CameraActivity extends AppCompatActivity implements SurfaceTexture.
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            //添加帧可用监听，通知GLSurface渲染
             mSurfaceTexture.setOnFrameAvailableListener(CameraActivity.this);
         }
 

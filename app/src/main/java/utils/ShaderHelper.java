@@ -58,10 +58,8 @@ public class ShaderHelper {
             if (LoggerConfig.ON) {
                 Log.w(TAG, "不能创建新的着色器.");
             }
-
             return 0;
         }
-
         // 传递着色器资源代码.
         glShaderSource(shaderObjectId, shaderCode);
 
@@ -111,7 +109,6 @@ public class ShaderHelper {
             if (LoggerConfig.ON) {
                 Log.w(TAG, "不能新建一个 program");
             }
-
             return 0;
         }
 

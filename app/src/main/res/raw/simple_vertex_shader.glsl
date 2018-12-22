@@ -1,4 +1,3 @@
-uniform   mat4 textureTransform;
 attribute vec2 inputTextureCoordinate;
 attribute vec4 a_Position;
 varying   vec2 textureCoordinate;

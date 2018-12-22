@@ -39,14 +39,14 @@ public class Triangle {
     public Triangle(Context context){
         this.context = context;
 
-        Matrix.setIdentityM(mProjectMatrix, 0);
-        Matrix.setIdentityM(mCameraMatrix, 0);
-        Matrix.setIdentityM(mMVPMatrix, 0);
-        Matrix.setIdentityM(mTempMatrix, 0);
+//        Matrix.setIdentityM(mProjectMatrix, 0);
+//        Matrix.setIdentityM(mCameraMatrix, 0);
+//        Matrix.setIdentityM(mMVPMatrix, 0);
+//        Matrix.setIdentityM(mTempMatrix, 0);
 
         getProgram();
 
-        uPosHandle = GLES20.glGetAttribLocation(program, A_POSITION);
+        uPosHandle = GLES20.glGetAttribLocation(program, "a_Position");
         aTexHandle = GLES20.glGetAttribLocation(program, "inputTextureCoordinate");
         mMVPMatrixHandle = GLES20.glGetUniformLocation(program, "textureTransform");
 
